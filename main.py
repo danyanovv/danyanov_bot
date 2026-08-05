@@ -15,6 +15,7 @@ from aiogram.types import (
 )
 from dotenv import load_dotenv
 from aiohttp import web
+from aiogram.types import ReplyParameters
 
 load_dotenv()
 
@@ -207,9 +208,12 @@ AUTO_COMMENT_KEYBOARD = InlineKeyboardMarkup(
 
 @dp.message(F.is_automatic_forward)
 async def auto_comment(message: Message):
-    await message.answer(
-        "👇 Вся инфа здесь — ссылки, вопросы, ответы:",
+    await bot.send_message(
+        chat_id=message.chat.id,
+        text="👇 Вся инфа здесь — ссылки, вопросы, ответы:",
         reply_markup=AUTO_COMMENT_KEYBOARD,
+        message_thread_id=message.message_thread_id,
+        reply_parameters=ReplyParameters(message_id=message.message_id),
     )
 
 
