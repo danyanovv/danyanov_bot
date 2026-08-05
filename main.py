@@ -104,9 +104,10 @@ answer_targets = {}
 @dp.message(CommandStart())
 async def start_cmd(message: Message):
     await message.answer(
-        "👋 Привет! Это бот-визитка.\n\n"
+        "👋 Привет! Это бот-визитка. \n\n"
         "Здесь мои ссылки и возможность задать вопрос.\n"
-        "Выбери действие ниже:",
+        "Выбери действие ниже:\n\n"
+        "👨‍💻 Разработчик: By Danya Nov",
         reply_markup=card_keyboard(),
     )
 
