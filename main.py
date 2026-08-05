@@ -210,7 +210,6 @@ async def auto_comment(message: Message):
     await message.answer(
         "👇 Вся инфа здесь — ссылки, вопросы, ответы:",
         reply_markup=AUTO_COMMENT_KEYBOARD,
-        message_thread_id=message.message_thread_id,
     )
 
 
