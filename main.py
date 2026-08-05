@@ -69,7 +69,7 @@ def add_question(user_id, username, question):
 def card_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="📖 Википедия", web_app=WebAppInfo(url=WIKI_URL))],  ← ДОБАВЬ ЭТУ
+            [InlineKeyboardButton(text="📖 Википедия", web_app=WebAppInfo(url=WIKI_URL))],
             [InlineKeyboardButton(text="🌐 Мой сайт", callback_data="site_soon")],
             [InlineKeyboardButton(text="📢 Телеграм канал", url="https://t.me/danyanovv")],
             [InlineKeyboardButton(text="💙 ВК сообщество", url="https://vk.ru/danyanovmedia")],
