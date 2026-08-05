@@ -196,6 +196,24 @@ async def report_user(callback: CallbackQuery):
     await callback.message.answer(f"⚠️ Жалоба на пользователя {user_id} сохранена.")
     await callback.answer()
 
+# ---------- Автокомментарий под постами ----------
+
+AUTO_COMMENT_KEYBOARD = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text="🤖 Перейти в бота", url="https://t.me/danyanov_bot")],
+    ]
+)
+
+
+@dp.message(F.is_automatic_forward)
+async def auto_comment(message: Message):
+    await message.answer(
+        "👇 Вся инфа здесь — ссылки, вопросы, ответы:",
+        reply_markup=AUTO_COMMENT_KEYBOARD,
+        message_thread_id=message.message_thread_id,
+    )
+
+
 
 # ---------- Запуск ----------
 
