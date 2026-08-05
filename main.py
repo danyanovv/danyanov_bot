@@ -14,6 +14,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
 )
 from dotenv import load_dotenv
+from aiohttp import web
 
 load_dotenv()
 
@@ -199,6 +200,16 @@ async def report_user(callback: CallbackQuery):
 
 async def main():
     init_db()
+
+    # мини-сервер, чтобы Render не усыплял бота
+    app = web.Application()
+    app.add_routes([web.get("/", lambda request: web.Response(text="ok"))])
+    runner = web.AppRunner(app)
+    await runner.setup()
+    port = int(os.getenv("PORT", 8080))
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+
     await dp.start_polling(bot)
 
 
