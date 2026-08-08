@@ -224,7 +224,7 @@ async def auto_comment(message: Message):
 
 WIKI_URL = "https://danyanov-bot.onrender.com/wiki"
 
-PHOTO_URL = ""  # сюда вставь ссылку на своё фото (или оставь пусто — будет заглушка)
+PHOTO_URL = "https://raw.githubusercontent.com/danyanovv/danyanov_bot/main/photo_2026-08-05_20-53-02.jpg"  # сюда вставь ссылку на своё фото (или оставь пусто — будет заглушка)
 
 photo_html = '<img src="' + PHOTO_URL + '" alt="Danya Nov">' if PHOTO_URL else '<div class="ph">DN</div>'
 
