@@ -47,16 +47,6 @@ def init_db():
         )
         """
     )
-    conn.execute(
-        """
-        CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY,
-            username TEXT,
-            first_name TEXT,
-            started_at TEXT
-        )
-        """
-    )
     conn.commit()
     conn.close()
 
@@ -73,35 +63,6 @@ def add_question(user_id, username, question):
     conn.close()
     return question_id
 
-def add_user(user_id, username, first_name):
-    conn = sqlite3.connect(DB_NAME)
-    conn.execute(
-        "INSERT OR IGNORE INTO users (user_id, username, first_name, started_at) "
-        "VALUES (?, ?, ?, datetime('now', 'localtime'))",
-        (user_id, username, first_name),
-    )
-    conn.execute(
-        "UPDATE users SET username = ?, first_name = ? WHERE user_id = ?",
-        (username, first_name, user_id),
-    )
-    conn.commit()
-    conn.close()
-
-
-def get_users_count():
-    conn = sqlite3.connect(DB_NAME)
-    count = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
-    conn.close()
-    return count
-
-
-def get_users_list():
-    conn = sqlite3.connect(DB_NAME)
-    rows = conn.execute(
-        "SELECT username, first_name FROM users ORDER BY started_at DESC"
-    ).fetchall()
-    conn.close()
-    return rows
 
 # ---------- Клавиатуры ----------
 
@@ -146,35 +107,13 @@ answer_targets = {}
 
 @dp.message(CommandStart())
 async def start_cmd(message: Message):
-    add_user(
-        message.from_user.id,
-        message.from_user.username,
-        message.from_user.first_name,
-    )
-    count = get_users_count()
     await message.answer(
         "👋 Привет! Это бот-визитка. \n\n"
         "Здесь мои ссылки и возможность задать вопрос.\n"
         "Выбери действие ниже:\n\n"
-        f"👥 Нас уже {count} человек!\n\n"
-        "👨‍ Разработчик: By Danya Nov",
+        "👨‍💻 Разработчик: By Danya Nov",
         reply_markup=card_keyboard(),
     )
-
-
-@dp.message(F.text == "/users", F.from_user.id == ADMIN_ID)
-async def users_list(message: Message):
-    rows = get_users_list()
-    if not rows:
-        await message.answer("👥 Пока никого нет.")
-        return
-    lines = []
-    for username, first_name in rows:
-        if username:
-            lines.append(f"@{username}")
-        else:
-            lines.append(f"{first_name} (без username)")
-    await message.answer("👥 Кто нажимал /start:\n\n" + "\n".join(lines))
 
 
 # ---------- 2. Анонимный вопрос ----------
